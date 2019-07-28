@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 void main() => runApp(new LoginPage());
 
 class LoginPage extends StatefulWidget {
@@ -13,9 +12,8 @@ class _LoginPageState extends State<LoginPage> {
 //  _formKey and _autoValidate
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
-  String _name;
   String _email;
-  String _mobile;
+  String _PassWord;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.phone,
           validator: validatePassWord,
           onSaved: (String val) {
-            _mobile = val;
+            _PassWord = val;
           },
         ),
 
