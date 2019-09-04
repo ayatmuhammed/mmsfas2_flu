@@ -14,12 +14,16 @@ class Splash_Screen extends StatelessWidget {
             color: Colors.indigo,
             size: 80.0,
             duration:  Duration(seconds: 5),
+
           ),
 
         ),
 
       ),
+
     );
+
   }
+
 
 }
