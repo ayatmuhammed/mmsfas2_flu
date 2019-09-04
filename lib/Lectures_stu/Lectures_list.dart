@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:mmsfas2_flu/Qr_ScanPages/BarCode.dart';
-
 import 'classes.dart';
 class Homepage extends StatefulWidget {
   @override
@@ -108,7 +107,8 @@ class _HomepageState extends State<Homepage> {
                                 Navigator.push(
                                   context, MaterialPageRoute(
                                   builder:
-                                      (context) => ScanScreen(),
+                                      (context) =>
+                                          ScanScreen(),
                                 ),
                                 ),
 
