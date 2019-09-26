@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:mmsfas2_flu/Lectures_stu/Lectures_list.dart';
 import 'package:mmsfas2_flu/LoginPages/DataBofLogin.dart';
 import 'package:mmsfas2_flu/LoginPages/usertodatabase.dart';
@@ -269,12 +270,12 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         ));
   }
 }
-class  Login_SigninPage extends StatefulWidget {
+class  Login_SigninPages extends StatefulWidget {
   @override
-  _Login_SigninPageState createState() => _Login_SigninPageState();
+  _Login_SigninPagesState createState() => _Login_SigninPagesState();
 }
 
-class _Login_SigninPageState extends State< Login_SigninPage> {
+class _Login_SigninPagesState extends State< Login_SigninPages> {
   //user need to input the email and password to i need to text editing
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passWordController = new TextEditingController();
@@ -307,16 +308,26 @@ class _Login_SigninPageState extends State< Login_SigninPage> {
 
               child: Text('Login', style: TextStyle(color: Colors.white)),
               color: Colors.indigo,
-              onPressed: () {
-                Navigator.of(context).pushNamed('/homepage');
-                FirebaseAuth.instance.createUserWithEmailAndPassword(
-                    email: _emailController.text, password: _passWordController.text).then((signedUser){
-                  UserToDatabase().addNewUser(signedUser, context);
-                }).catchError((e){
-                  print(e);
-                });
-              },
+              onPressed: () async {
+                print('insideOnPress');
 
+                try {
+                 AuthResult user = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                      email: _emailController.text,
+                      password: _passWordController.text);
+
+                  print('after sign');
+                  print('signedUser: ' + user.toString());
+                  if(user!= null) {
+                    UserToDatabase().addNewUser(user, context);
+                  }
+                }on PlatformException catch(e){
+                  print('signException: + $e');
+                }
+
+                print('after try catch');
+              },
             ),
             Padding(padding:EdgeInsets.only(bottom: 25.0) ),
             _signInButton(),

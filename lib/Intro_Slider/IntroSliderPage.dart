@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:mmsfas2_flu/LoginPages/signin.dart';
 
-class Slider extends StatelessWidget {
+class MySlider extends StatelessWidget {
   //making list of pages needed to pass in IntroViewsFlutter constructor.
   final pages = [
     PageViewModel(
@@ -69,7 +70,7 @@ class Slider extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => HomePage(),
+                builder: (context) =>Login_SigninPages(),
               ), //MaterialPageRoute
             );
           },

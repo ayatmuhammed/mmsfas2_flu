@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:mmsfas2_flu/Drawer_Pages/Drawer_Comp.dart';
 import 'package:mmsfas2_flu/Qr_ScanPages/BarCode.dart';
 import 'classes.dart';
 class Homepage extends StatefulWidget {
@@ -45,14 +46,17 @@ class _HomepageState extends State<Homepage> {
     return MaterialApp(
       title: 'Student DB',
       home: Scaffold(
-        drawer: drawer,
-        drawerScrimColor: Colors.white,
+       // drawer: drawer,
+       // drawerScrimColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.indigo,
           title: Text('Your Classes',
             style: TextStyle(color: Colors.white, fontSize: 18.0),
           ),
           centerTitle: true,
+        ),
+        drawer: Drawer(
+          child:DrawerComp() ,
         ),
         body: Center(
           child: ListView.builder(

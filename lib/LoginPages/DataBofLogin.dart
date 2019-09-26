@@ -14,13 +14,13 @@ Future<String> signInWithGoogle() async {
     idToken: googleSignInAuthentication.idToken,
   );
 
-  final FirebaseUser user = await _auth.signInWithCredential(credential);
+  final AuthResult user = await _auth.signInWithCredential(credential);
 
-  assert(!user.isAnonymous);
-  assert(await user.getIdToken() != null);
+  assert(!user.user.isAnonymous);
+  assert(await user.user.getIdToken() != null);
 
   final FirebaseUser currentUser = await _auth.currentUser();
-  assert(user.uid == currentUser.uid);
+  assert(user.user.uid == currentUser.uid);
 
   return 'signInWithGoogle succeeded: $user';
 }
