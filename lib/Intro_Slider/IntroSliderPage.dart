@@ -70,7 +70,7 @@ class MySlider extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>Login_SigninPages(),
+                builder: (context) =>LoginSignIn(),
               ), //MaterialPageRoute
             );
           },

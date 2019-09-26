@@ -270,12 +270,12 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         ));
   }
 }
-class  Login_SigninPages extends StatefulWidget {
+class  LoginSignIn extends StatefulWidget {
   @override
-  _Login_SigninPagesState createState() => _Login_SigninPagesState();
+  _LoginSignInState createState() => _LoginSignInState();
 }
 
-class _Login_SigninPagesState extends State< Login_SigninPages> {
+class _LoginSignInState extends State< LoginSignIn> {
   //user need to input the email and password to i need to text editing
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passWordController = new TextEditingController();

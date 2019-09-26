@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mmsfas2_flu/Intro_Slider/IntroSliderPage.dart';
-import 'package:mmsfas2_flu/LoginPages/signin.dart';
 
 class SplashScreen extends StatefulWidget {
 

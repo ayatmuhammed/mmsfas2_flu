@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
         ),
     routes: <String ,WidgetBuilder>{
     '/landingpage':(BuildContext context)=> MyApp(),
-    '/register':(BuildContext context)=> Login_SigninPages(),
+    '/register':(BuildContext context)=> LoginSignIn(),
     '/homepage':(BuildContext context)=> Homepage(),
-      '/slider':(BuildContext context)=> Slider(),
+//      '/Myslider':(BuildContext context)=> Slider(),
     }
     );
     }
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
 
       var user =  await FirebaseAuth.instance.currentUser();
       if(user == null){
-        return Login_SigninPages();
+        return LoginSignIn();
       }
 
       return HomePage();
