@@ -111,8 +111,8 @@ class _HomepageState extends State<Homepage> {
                                 Navigator.push(
                                   context, MaterialPageRoute(
                                   builder:
-                                      (context) =>
-                                          ScanScreen(),
+                                      (context) =>QrScan(),
+                                        //  ScanScreen(),
                                 ),
                                 ),
 

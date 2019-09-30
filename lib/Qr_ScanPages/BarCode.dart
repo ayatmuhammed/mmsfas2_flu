@@ -1,123 +1,125 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:mmsfas2_flu/main.dart';
-import 'package:path_provider/path_provider.dart';
-class ScanScreen extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CameraApp(),
-    );
-  }
-}
-
-class CameraApp extends StatefulWidget {
-  @override
-  _CameraAppState createState() => _CameraAppState();
-}
-
-class _CameraAppState extends State<CameraApp> {
-  CameraController controller;
-  Timer _timer;
-  String _barcodeRead = "";
-
-  @override
-  void initState() {
-    super.initState();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
-    controller.initialize().then((_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-
-      _startTimer();
-    });
-  }
-
-  void _startTimer() {
-    _timer = new Timer(Duration(seconds: 3), _timerElapsed);
-  }
-
-  void _stopTimer() {
-    if (_timer != null) {
-      _timer.cancel();
-      _timer = null;
-    }
-  }
-
-  Future<void> _timerElapsed() async {
-    _stopTimer();
-
-    File file = await _takePicture();
-    await _readBarcode(file);
-    _startTimer();
-  }
-
-  Future _readBarcode(File file) async {
-    FirebaseVisionImage firebaseImage = FirebaseVisionImage.fromFile(file);
-    final BarcodeDetector barcodeDetector = FirebaseVision.instance
-        .barcodeDetector();
-
-    final List<Barcode> barcodes = await barcodeDetector.detectInImage(
-        firebaseImage);
-
-    _barcodeRead = "";
-    for (Barcode barcode in barcodes) {
-      _barcodeRead += barcode.rawValue + ", ";
-    }
-    setState(() {});
-  }
-
+import 'package:qrscan/qrscan.dart' as scanner;
+//import 'package:camera/camera.dart';
+//import 'package:mmsfas2_flu/main.dart';
+//import 'package:path_provider/path_provider.dart';
+////class ScanScreen extends StatelessWidget {
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//      home: CameraApp(),
+//    );
+//  }
 //}
-  Future<File> _takePicture() async {
-    final Directory extDir = await getApplicationDocumentsDirectory();
-    final String dirPath = '${extDir.path}/Pictures/barcode';
-    await Directory(dirPath).create(recursive: true);
-    final File file = new File('$dirPath/barcode.jpg');
-
-    if (await file.exists())
-      await file.delete();
-
-    await controller.takePicture(file.path);
-    return file;
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!controller.value.isInitialized) {
-      return Container();
-    }
-
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        AspectRatio(
-            aspectRatio:
-            controller.value.aspectRatio,
-            child: CameraPreview(controller)
-        ),
-        Container(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-              _barcodeRead.length > 0 ? _barcodeRead : "No Barcode",
-              textAlign: TextAlign.center
-          ),
-        )
-      ],
-    );
-  }
-}
+//
+//class CameraApp extends StatefulWidget {
+//  @override
+//  _CameraAppState createState() => _CameraAppState();
+//}
+//
+//class _CameraAppState extends State<CameraApp> {
+//  CameraController controller;
+//  Timer _timer;
+//  String _barcodeRead = "";
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    controller = CameraController(cameras[0], ResolutionPreset.medium);
+//    controller.initialize().then((_) {
+//      if (!mounted) {
+//        return;
+//      }
+//      setState(() {});
+//
+//      _startTimer();
+//    });
+//  }
+//
+//  void _startTimer() {
+//    _timer = new Timer(Duration(seconds: 3), _timerElapsed);
+//  }
+//
+//  void _stopTimer() {
+//    if (_timer != null) {
+//      _timer.cancel();
+//      _timer = null;
+//    }
+//  }
+//
+//  Future<void> _timerElapsed() async {
+//    _stopTimer();
+//
+//    File file = await _takePicture();
+//    await _readBarcode(file);
+//    _startTimer();
+//  }
+//
+//  Future _readBarcode(File file) async {
+//    FirebaseVisionImage firebaseImage = FirebaseVisionImage.fromFile(file);
+//    final BarcodeDetector barcodeDetector = FirebaseVision.instance
+//        .barcodeDetector();
+//
+//    final List<Barcode> barcodes = await barcodeDetector.detectInImage(
+//        firebaseImage);
+//
+//    _barcodeRead = "";
+//    for (Barcode barcode in barcodes) {
+//      _barcodeRead += barcode.rawValue + ", ";
+//    }
+//    setState(() {});
+//  }
+//
+////}
+//  Future<File> _takePicture() async {
+//    final Directory extDir = await getApplicationDocumentsDirectory();
+//    final String dirPath = '${extDir.path}/Pictures/barcode';
+//    await Directory(dirPath).create(recursive: true);
+//    final File file = new File('$dirPath/barcode.jpg');
+//
+//    if (await file.exists())
+//      await file.delete();
+//
+//    await controller.takePicture(file.path);
+//    return file;
+//  }
+//
+//  @override
+//  void dispose() {
+//    controller?.dispose();
+//    super.dispose();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    if (!controller.value.isInitialized) {
+//      return Container();
+//    }
+//
+//    return Stack(
+//      alignment: Alignment.center,
+//      children: <Widget>[
+//        AspectRatio(
+//            aspectRatio:
+//            controller.value.aspectRatio,
+//            child: CameraPreview(controller)
+//        ),
+//        Container(
+//          alignment: Alignment.bottomCenter,
+//          child: Text(
+//              _barcodeRead.length > 0 ? _barcodeRead : "No Barcode",
+//              textAlign: TextAlign.center
+//          ),
+//        )
+//      ],
+//    );
+//  }
+//}
 
 //import 'dart:async';
 //import 'package:barcode_scan/barcode_scan.dart';
@@ -156,7 +158,7 @@ class _CameraAppState extends State<CameraApp> {
 //                    textColor: Colors.white,
 //                    splashColor: Colors.blueGrey,
 //                    onPressed: scan,
-//                    child: const Text('START CAMERA SCAN')
+//                    child: const Text(' CAMERA ')
 //                ),
 //              )
 //              ,
@@ -188,3 +190,45 @@ class _CameraAppState extends State<CameraApp> {
 //    }
 //  }
 //}
+class QrScan extends StatefulWidget {
+  @override
+  _QrScanState createState() => _QrScanState();
+}
+
+class _QrScanState extends State<QrScan> {
+  String barcode = '';
+  Uint8List bytes = Uint8List(200);
+
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text('Qrcode Scanner',style:TextStyle(color: Colors.indigo),),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+
+              RaisedButton(onPressed: _scan, child: Text("Scan"),color:Colors.indigo,),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future _scan() async {
+    String barcode = await scanner.scan();
+    setState(() => this.barcode = barcode);
+  }
+
+}
